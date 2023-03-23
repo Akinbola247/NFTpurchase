@@ -8,7 +8,8 @@ contract Market {
      using SafeCast for int256;
 struct ItemDetails{
     uint tokenID;
-    uint seller;
+    address seller;
+    bool status;
 }
 
 address owner;
@@ -29,12 +30,14 @@ constructor(address _nftAddress){
 
 }
 function listItem(uint _tokenitemID) public {
-    ItemDetails storage _a = temInfo[_tokenitemID];
+    ItemDetails storage _a = itemInfo[_tokenitemID];
     _a.tokenID = _tokenitemID;
     _a.seller = msg.sender;
+    _a.status = true;
 }
 function purchaseItem(uint _tokenID) public payable{
     uint balance = DaiContract.balanceOf(msg.sender);
+    require(itemInfo[_tokenID].status == true, "not for sale");
     require(balance >= 3.5 ether);
     uint ethusdCurrentPrice = getETHUSDPrice();
     uint usdtusdCurrentPrice = getDAIUSDPrice();

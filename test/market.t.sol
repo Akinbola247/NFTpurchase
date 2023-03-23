@@ -22,6 +22,7 @@ function setUp() public {
 function testMint() public {
     vm.startPrank(0xBB9F947cB5b21292DE59EFB0b1e158e90859dddb);
     nft.safeMint("https://ipfs.filebase.io/ipfs/QmYqEcCNJiP7pP2nzSsvyv7Ji1tNpv6omWMJ4Nph22dmfn", address(market));
+    market.listItem(0);
     vm.stopPrank();
 }
 function testPurchaseItem() public {
@@ -30,6 +31,7 @@ function testPurchaseItem() public {
     daiContract.approve(address(market), 35000000000000000000000000000000000000000000000000000);
     market.purchaseItem(0);
     uint balance = daiContract.balanceOf(address(market));
+    console.log(balance);
 }
 
 }
